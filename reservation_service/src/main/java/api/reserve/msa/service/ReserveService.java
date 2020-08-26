@@ -1,5 +1,6 @@
 package api.reserve.msa.service;
 
+import api.reserve.msa.domain.ReserveRepository;
 import api.reserve.msa.dto.ReserveDto;
 import api.reserve.msa.service.api.CallEnroll;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,8 @@ public class ReserveService {
 
     private final CallEnroll callEnroll;
     private Logger LOGGER = LoggerFactory.getLogger(ReserveService.class);
+
+    private final ReserveRepository reserveRepository;
 
     @Value("${server.id}")
     private String SERVER_ID;
@@ -37,10 +40,13 @@ public class ReserveService {
 
         if(enroll_flag){
             LOGGER.info(requestParam.toJsonEntity());
+            reserveRepository.save(requestParam.toEntity());
         }else{
             requestParam.setResponseStatus("NOT REGISTERED DEVICE");
             LOGGER.error(requestParam.toJsonEntity());
         }
+
+
 
         return requestParam;
     }

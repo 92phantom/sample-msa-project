@@ -15,8 +15,7 @@ import java.sql.Date;
 public class EnergyReservation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "seq_num")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "device_id", nullable = false, length = 20)

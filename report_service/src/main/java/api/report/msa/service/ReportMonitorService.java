@@ -1,5 +1,6 @@
 package api.report.msa.service;
 
+import api.report.msa.domain.ReportRepository;
 import api.report.msa.dto.ReportDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,19 +17,24 @@ public class ReportMonitorService {
     @Value("${server.id}")
     private String SERVER_ID;
 
+    private final ReportRepository reportRepository;
+
+
     public ReportDto saveReportMonitoring(ReportDto requestParam){
 
         System.out.println("#####################");
         System.out.println(requestParam.toEntity());
 
-            if(requestParam.getServer_id().equals(SERVER_ID)){
-                requestParam.setResponseStatus("OK");
-                LOGGER.info(requestParam.toEntity());
-            }
-            else{
-                requestParam.setResponseStatus("INVALID");
-                LOGGER.error(requestParam.toEntity());
-            }
+        if(requestParam.getServer_id().equals(SERVER_ID)){
+            requestParam.setResponseStatus("OK");
+            LOGGER.info(requestParam.toJsonEntity());
+        }
+        else{
+            requestParam.setResponseStatus("INVALID");
+            LOGGER.error(requestParam.toJsonEntity());
+        }
+
+        reportRepository.save(requestParam.toEntity());
 
         return requestParam;
 

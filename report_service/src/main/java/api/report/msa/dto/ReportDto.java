@@ -1,10 +1,12 @@
 package api.report.msa.dto;
 
+import api.report.msa.domain.EnergyReport;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.JsonObject;
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Getter
 @Setter
@@ -20,7 +22,33 @@ public class ReportDto {
     private String server_id;
     private String responseStatus;
 
-    public String toEntity(){
+    @Builder
+    public ReportDto(String device_id, String server_id, long current_usage, long threshold, String unit, long interval, String interval_unit, String responseStatus){
+        this.device_id = device_id;
+        this.server_id = server_id;
+        this.current_usage = current_usage;
+        this.threshold = threshold;
+        this.unit = unit;
+        this.interval = interval;
+        this.interval_unit = interval_unit;
+        this.timeStamp = new Date(System.currentTimeMillis());
+        this.responseStatus = responseStatus;
+    }
+
+    public EnergyReport toEntity(){
+        return EnergyReport.builder()
+                .device_id(device_id)
+                .server_id(server_id)
+                .current_usage(current_usage)
+                .timestamp(timeStamp)
+                .threshold(threshold)
+                .unit(unit)
+                .interval(interval)
+                .interval_unit(interval_unit)
+                .build();
+    }
+
+    public String toJsonEntity(){
         JsonObject obj = new JsonObject();
         obj.addProperty("responseStatus", getResponseStatus());
         obj.addProperty("device_id", getDevice_id());
