@@ -36,6 +36,8 @@ public class EnrollService {
         else{
             requestParam.setResponseStatus("INVALID");
             LOGGER.error(requestParam.toJsonEntity());
+            return requestParam;
+
         }
 
         // Transactional Part
