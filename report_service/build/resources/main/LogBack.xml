@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+        <reconnectionDelay>10 second</reconnectionDelay>
+        <waitStrategyType>sleeping</waitStrategyType>
+        <writeBufferSize>16384</writeBufferSize>
+        <destination>34.121.137.128:5044</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <version>6</version>
+        </encoder>
+    </appender>
+
+
+    <logger name="org.springframework.data" level="error" />
+
+
+    <root level="info">
+        <appender-ref ref="STASH"/>
+    </root>
+</configuration>
